@@ -13,13 +13,11 @@ pool:
 # - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+- group: 'Release'
 
 stages:
 - stage: Build_and_Deploy
   displayName: Build and Deploy Docker image
-  variables:
-  - group: 'Release'
   jobs:
   - job: Build_and_Publish
     displayName: Build and Publish Docker image
@@ -42,4 +40,4 @@ stages:
         containerRegistry: '$(myDockerRegistry)'
         repository: '$(dockerRepository)'
         tags: |
-          $(tag)
+          $(Build.BuildId)
