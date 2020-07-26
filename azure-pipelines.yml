@@ -18,23 +18,28 @@ variables:
 stages:
 - stage: Build_and_Deploy
   displayName: Build and Deploy Docker image
+  variables:
+  - group: 'Release'
   jobs:
   - job: Build_and_Publish
     displayName: Build and Publish Docker image
     variables:
-    - group: 'Release'
+      myDockerRegistry: $(dockerRegistry)
     steps:
+    - script: |
+        echo dockerRegistry $(dockerRegistry)
+        echo myDockerRegistry $(myDockerRegistry)
     - task: Docker@2
       displayName: Login to Docker Hub
       inputs:
         command: login
-        containerRegistry: '$(dockerRegistry)'
+        containerRegistry: '$(myDockerRegistry)'
     - task: Docker@2
       displayName: Build and Publish image
       inputs:
         command: buildAndPush
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        containerRegistry: '$(dockerRegistry)'
+        containerRegistry: '$(myDockerRegistry)'
         repository: '$(dockerRepository)'
         tags: |
           $(tag)
