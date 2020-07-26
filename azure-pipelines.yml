@@ -21,12 +21,12 @@ stages:
   variables:
   - group: 'Release'
   jobs:
-  - script: |
-      echo $(dockerRegistry)
-      echo $(dockerRepository)
   - job: Build_and_Publish
     displayName: Build and Publish Docker image
     steps:
+    - script: |
+        echo $(dockerRegistry)
+        echo $(dockerRepository)
     - task: Docker@2
       displayName: Login to Docker Hub
       inputs:
