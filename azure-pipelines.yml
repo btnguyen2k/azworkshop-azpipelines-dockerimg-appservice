@@ -6,18 +6,14 @@ trigger:
     include:
     - master
 
-pool:
-  vmImage: 'ubuntu-latest'
-
-# resources:
-# - repo: self
-
 variables:
 - group: 'Release'
 
 stages:
-- stage: Build_and_Deploy
-  displayName: Build and Deploy Docker image
+- stage: Build
+  displayName: Build and Publish Docker image
+  pool:
+    vmImage: 'ubuntu-latest'
   jobs:
   - job: Build_and_Publish
     displayName: Build and Publish Docker image
@@ -40,3 +36,23 @@ stages:
         repository: '$(dockerRepository)'
         tags: |
           $(Build.BuildId)
+
+- stage: Deploy
+  displayName: Deploy App Service
+  dependsOn: Build
+  pool:
+    vmImage: 'ubuntu-latest'
+  jobs:
+  - deployment: Deploy
+    variables:
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              appName: '$(appName)'
+              containers: '$(dockerRepository):$(Build.BuildId)'
