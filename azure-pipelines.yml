@@ -24,7 +24,7 @@ stages:
   - job: Build_and_Publish
     displayName: Build and Publish Docker image
     variables:
-      myDockerRegistry: $(dockerRegistry)
+      myDockerRegistry: 'ServiceConnectorDockerHub'
     steps:
     - script: |
         echo dockerRegistry $(dockerRegistry)
