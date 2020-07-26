@@ -20,7 +20,7 @@ stages:
 - stage: Build_and_Deploy
   displayName: Build and Deploy Docker image
   variables:
-  - group: 'Release'
+    - group: 'Release'
   jobs:
   - job: Build_and_Publish
     displayName: Build and Publish Docker image
@@ -33,7 +33,7 @@ stages:
     - task: Docker@2
       displayName: Build and Publish image
       inputs:
-        command: buildbuildAndPush
+        command: buildAndPush
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         containerRegistry: $(dockerRegistry)
         repository: $(dockerRepository)
