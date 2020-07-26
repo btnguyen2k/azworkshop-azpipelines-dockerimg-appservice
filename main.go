@@ -18,7 +18,7 @@ func main() {
 		respHtml += "Env:<br>"
 		respHtml += "<pre>"
 		for _, e := range os.Environ() {
-			respHtml += e
+			respHtml += e + "\n"
 		}
 		respHtml += "</pre>"
 
