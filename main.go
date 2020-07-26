@@ -10,12 +10,15 @@ import (
 )
 
 func main() {
+	const appName = "demo"
+	const appVersion = "0.1.0"
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
 
-		respHtml := fmt.Sprintf(`Hello, %q<br>Now is: %s`, html.EscapeString(r.URL.Path), time.Now().Format(time.RFC3339))
+		respHtml := fmt.Sprintf(`[%s v%s] Hello, %q<br>Now is: %s`, appName, appVersion,
+			html.EscapeString(r.URL.Path), time.Now().Format(time.RFC3339))
 
-		respHtml += "Env:<br>"
+		respHtml += "<br><br><b>Env:</b><br>"
 		respHtml += "<pre>"
 		for _, e := range os.Environ() {
 			respHtml += e + "\n"
