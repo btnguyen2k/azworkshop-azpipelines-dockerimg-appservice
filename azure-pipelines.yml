@@ -18,15 +18,13 @@ variables:
 stages:
 - stage: Build_and_Deploy
   displayName: Build and Deploy Docker image
-  variables:
-  - group: 'Release'
   jobs:
   - job: Build_and_Publish
     displayName: Build and Publish Docker image
+    variables:
+    - group: 'Release'
     steps:
     - task: Docker@2
-      variables:
-      - group: 'Release'
       displayName: Login to Docker Hub
       inputs:
         command: login
