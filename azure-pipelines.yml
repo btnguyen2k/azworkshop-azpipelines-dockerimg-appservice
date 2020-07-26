@@ -31,7 +31,7 @@ stages:
       displayName: Login to Docker Hub
       inputs:
         command: login
-        containerRegistry: '$(dockerRegistry)'
+        containerRegistry: 'ServiceConnectorDockerHub'
     # - task: Docker@2
     #   displayName: Build and Publish image
     #   inputs:
