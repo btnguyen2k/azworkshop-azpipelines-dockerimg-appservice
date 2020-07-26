@@ -20,26 +20,21 @@ stages:
   displayName: Build and Deploy Docker image
   variables:
   - group: 'Release'
-  - myDockerRegistry: $(dockerRegistry)
   jobs:
   - job: Build_and_Publish
     displayName: Build and Publish Docker image
     steps:
-    - script: |
-        echo $(dockerRegistry)
-        echo $(dockerRepository)
-        echo $(myDockerRegistry)
     - task: Docker@2
       displayName: Login to Docker Hub
       inputs:
         command: login
         containerRegistry: 'ServiceConnectorDockerHub'
-    # - task: Docker@2
-    #   displayName: Build and Publish image
-    #   inputs:
-    #     command: buildbuildAndPush
-    #     dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-    #     containerRegistry: $(dockerRegistry)
-    #     repository: $(dockerRepository)
-    #     tags: |
-    #       $(tag)
+    - task: Docker@2
+      displayName: Build and Publish image
+      inputs:
+        command: buildbuildAndPush
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        containerRegistry: $(dockerRegistry)
+        repository: $(dockerRepository)
+        tags: |
+          $(tag)
