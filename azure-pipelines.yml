@@ -6,8 +6,8 @@ trigger:
     include:
     - master
 
-variables:
-- group: 'Release'
+# variables:
+# - group: 'Release'
 
 stages:
 - stage: Build
