@@ -5,14 +5,23 @@ import (
 	"html"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		respHtml := fmt.Sprintf(`Hello, %q<br>
-		Now is: %s`, html.EscapeString(r.URL.Path), time.Now().Format(time.RFC3339))
+
+		respHtml := fmt.Sprintf(`Hello, %q<br>Now is: %s`, html.EscapeString(r.URL.Path), time.Now().Format(time.RFC3339))
+
+		respHtml += "Env:<br>"
+		respHtml += "<pre>"
+		for _, e := range os.Environ() {
+			respHtml += e
+		}
+		respHtml += "</pre>"
+
 		fmt.Fprintf(w, respHtml)
 	})
 
