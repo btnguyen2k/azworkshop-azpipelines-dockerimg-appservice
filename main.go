@@ -25,6 +25,13 @@ func main() {
 		}
 		respHtml += "</pre>"
 
+		respHtml += "<br><br><b>Headers:</b><br>"
+		respHtml += "<pre>"
+		for k, v := range w.Header() {
+			respHtml += fmt.Sprintf("%s=%s\n", k, v)
+		}
+		respHtml += "</pre>"
+
 		fmt.Fprintf(w, respHtml)
 	})
 
