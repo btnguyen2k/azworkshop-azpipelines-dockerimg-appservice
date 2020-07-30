@@ -62,7 +62,6 @@ stages:
 
 - stage: Deploy
   displayName: Deploy App Service
-  dependsOn: Build
   pool:
     vmImage: 'ubuntu-latest'
   jobs:
