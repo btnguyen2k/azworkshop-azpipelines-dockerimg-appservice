@@ -4,7 +4,7 @@
 trigger:
   branches:
     include:
-    - master
+    - '*'
   paths:
     exclude:
     - docs/*
@@ -23,11 +23,11 @@ stages:
     # variables:
     # - group: 'Release'
     steps:
-    - task: Docker@2
-      displayName: Login to Docker Hub
-      inputs:
-        command: login
-        containerRegistry: '$(dockerRegistry)'
+    # - task: Docker@2
+    #   displayName: Login to Docker Hub
+    #   inputs:
+    #     command: login
+    #     containerRegistry: '$(dockerRegistry)'
     - task: Docker@2
       displayName: Build and Publish image
       inputs:
@@ -38,24 +38,24 @@ stages:
         tags: |
           $(Build.BuildId)
 
-- stage: Deploy
-  displayName: Deploy App Service
-  dependsOn: Build
-  pool:
-    vmImage: 'ubuntu-latest'
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy App Service from Container
-    environment: dev
-    # variables:
-    # - group: Release
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureWebAppContainer@1
-            displayName: 'Azure Web App on Container Deploy'
-            inputs:
-              azureSubscription: '$(azureSubscription)'
-              appName: '$(appName)'
-              containers: '$(dockerRepository):$(Build.BuildId)'
+# - stage: Deploy
+#   displayName: Deploy App Service
+#   dependsOn: Build
+#   pool:
+#     vmImage: 'ubuntu-latest'
+#   jobs:
+#   - deployment: Deploy
+#     displayName: Deploy App Service from Container
+#     environment: dev
+#     # variables:
+#     # - group: Release
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: AzureWebAppContainer@1
+#             displayName: 'Azure Web App on Container Deploy'
+#             inputs:
+#               azureSubscription: '$(azureSubscription)'
+#               appName: '$(appName)'
+#               containers: '$(dockerRepository):$(Build.BuildId)'
