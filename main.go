@@ -11,7 +11,7 @@ import (
 
 func main() {
 	const appName = "demo"
-	const appVersion = "0.1.0"
+	const appVersion = "0.2.0"
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
 
