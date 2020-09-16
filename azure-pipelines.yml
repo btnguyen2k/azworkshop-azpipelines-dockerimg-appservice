@@ -38,7 +38,7 @@ stages:
         tags: |
           $(Build.BuildId)
 
-- stage: Deploy
+- stage: Deploy_on_Dev
   displayName: Deploy App Service
   dependsOn: Build
   pool:
@@ -47,6 +47,28 @@ stages:
   - deployment: Deploy
     displayName: Deploy App Service from Container
     environment: dev
+    # variables:
+    # - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebAppContainer@1
+            displayName: 'Azure Web App on Container Deploy'
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              appName: '$(appName)'
+              containers: '$(dockerRepository):$(Build.BuildId)'
+
+- stage: Deploy_on_Prod
+  displayName: Deploy App Service
+  dependsOn: Deploy_on_Dev
+  pool:
+    vmImage: 'ubuntu-latest'
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy App Service from Container
+    environment: prod
     # variables:
     # - group: Release
     strategy:
